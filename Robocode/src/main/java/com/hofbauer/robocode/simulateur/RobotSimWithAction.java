@@ -1,12 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.hofbauer.robocode.simulateur;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.Set;
-
 import org.apache.commons.scxml.model.State;
-
 import robocode.AdvancedRobot;
 import robocode.BattleEndedEvent;
 import robocode.CustomEvent;
@@ -15,9 +18,12 @@ import robocode.HitByBulletEvent;
 import robocode.HitRobotEvent;
 import robocode.HitWallEvent;
 import robocode.ScannedRobotEvent;
-import robocode.TurnCompleteCondition;
 
-public class RobotSimBasic extends AdvancedRobot {
+/**
+ *
+ * @author hofbauer
+ */
+public class RobotSimWithAction extends AdvancedRobot {
 
     static RobotStateMachine robotModel = null;
 
@@ -46,40 +52,8 @@ public class RobotSimBasic extends AdvancedRobot {
             robotModel.getEngine().getRootContext().set("Energy", this.getEnergy());
             //System.out.println("Energy: "+this.getEnergy() );
             robotModel.fireEvent("e");
+            setAhead(100);
 
-            currentLeafstates = robotModel.getEngine().getCurrentStatus().getStates();
-
-            for (Object g : currentLeafstates) {
-
-                String currentLeafstate = ((State) g).getId();
-
-                if (currentLeafstate.equals("ahead")) {
-
-                    setAhead(1000);
-                }
-                if (currentLeafstate.equals("back")) {
-                    setBack(10000);
-                }
-                if (currentLeafstate.equals("notMove")) {
-                    setBack(0);
-                }
-                if (currentLeafstate.equals("turnRight")) {
-                    setTurnLeft(360);
-                }
-                if (currentLeafstate.equals("turnLeft")) {
-                    setTurnRight(360);
-                }
-
-                if (currentLeafstate.equals("notTurn")) {
-                    setTurnRight(0);
-
-                }
-
-                if (currentLeafstate.equals("fire")) {
-                    fire(3);
-                }
-
-            }
             execute();
 
         }

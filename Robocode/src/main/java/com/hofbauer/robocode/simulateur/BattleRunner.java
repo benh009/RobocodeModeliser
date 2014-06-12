@@ -15,38 +15,31 @@ public class BattleRunner {
 
         // Disable log messages from Robocode
         //
-        
-
         // Create the RobocodeEngine
         //   RobocodeEngine engine = new RobocodeEngine(); // Run from current working directory
         RobocodeEngine engine = new RobocodeEngine(new java.io.File("/home/hofbauer/.robocode")); // Run from C:/Robocode
-        
+
         // Add our own battle listener to the RobocodeEngine 
         engine.addBattleListener(new BattleObserver());
 
         // Show the Robocode battle view
-       engine.setVisible(true);
-
-        
-        
+        engine.setVisible(true);
 
         // Setup the battle specification
-
         int numberOfRounds = 5;
         BattlefieldSpecification battlefield = new BattlefieldSpecification(800, 600); // 800x600
-        RobotSpecification[] selectedRobots = engine.getLocalRepository("sample.RamFire,projet.MyWallRobotSim");
-        
+        RobotSpecification[] selectedRobots = engine.getLocalRepository("sample.RamFire,sample.Walls,com.hofbauer.robocode.simulateur.RobotSimWithAction");
+
         BattleSpecification battleSpec = new BattleSpecification(numberOfRounds, battlefield, selectedRobots);
-        
-        for (RobotSpecification r :engine.getLocalRepository())
-        {
-        	System.out.println(r.getClassName());
+
+        for (RobotSpecification r : engine.getLocalRepository()) {
+            System.out.println(r.getClassName());
         }
         engine.printRunningThreads();
-        
+
         // Run our specified battle and let it run till it is over
         engine.runBattle(battleSpec, true); // waits till the battle finishes
-        
+
         // Cleanup our RobocodeEngine
         engine.close();
 
@@ -57,12 +50,13 @@ public class BattleRunner {
 //
 // Our private battle listener for handling the battle event we are interested in.
 //
+
 class BattleObserver extends BattleAdaptor {
 
     // Called when the battle is completed successfully with battle results
     public void onBattleCompleted(BattleCompletedEvent e) {
         System.out.println("-- Battle has completed --");
-        
+
         // Print out the sorted results with the robot names
         System.out.println("Battle results:");
         for (robocode.BattleResults result : e.getSortedResults()) {
