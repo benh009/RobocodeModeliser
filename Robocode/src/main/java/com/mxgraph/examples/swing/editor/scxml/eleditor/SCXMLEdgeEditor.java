@@ -41,7 +41,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.Document;
-import com.hofbauer.robocodeSpecifique.EventRobocode;
+import com.hofbauer.robocode.editeur.EventRobocode;
 import sun.org.mozilla.javascript.ContextListener;
 
 public class SCXMLEdgeEditor extends SCXMLElementEditor {

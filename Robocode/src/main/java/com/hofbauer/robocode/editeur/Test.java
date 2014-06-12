@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.hofbauer.robocode;
+package com.hofbauer.robocode.editeur;
 
 /**
  *

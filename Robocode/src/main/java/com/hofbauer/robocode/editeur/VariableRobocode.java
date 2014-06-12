@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package com.hofbauer.robocodeSpecifique;
+package com.hofbauer.robocode.editeur;
 
 /**
  *
  * @author hofbauer
  */
-public enum EventRobocode {HitWall,HitRobot,ScannedRobot,HitByBullet
+public enum VariableRobocode {
     
 }
