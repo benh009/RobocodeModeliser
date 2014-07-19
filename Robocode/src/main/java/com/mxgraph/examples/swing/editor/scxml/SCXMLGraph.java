@@ -237,7 +237,7 @@ public class SCXMLGraph extends mxGraph
 					SCXMLNode scxmlLCA = (SCXMLNode) ((mxCell)lca).getValue();
 					if (scxmlLCA.isParallel()) warnings+=source.getID()+" and "+target.getID()+" are (descendats of) siblings of a parallel node ("+scxmlLCA.getID()+").\n";
 				}
-
+                                    
 				String edgeEventName = edgeValue.getEvent();
 				//check that edge event is allowed by the restriction on the source node
 				if (source.isRestricted()){
