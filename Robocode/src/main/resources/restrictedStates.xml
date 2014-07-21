@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<SCXMLConstraints>
+        <restrictedState name="StateRobocode">
+                <color>red</color>
+                <documentation>Restriction sur les evenements pour pouvoir utiliser dans robocodes</documentation>
+                <possibleEvent name="onHitRobot">
+                        <documentation>Evenement lors de la colliction avec un robot</documentation>
+                </possibleEvent>
+                 <possibleEvent name="t">
+                        <documentation>nouveau tick permetant de soumettre des actions</documentation>
+                </possibleEvent>
+                
+                <possibleEvent name="onScannedRobot">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleEvent>
+                <possibleEvent name="onHitByBullet">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleEvent>
+                <possibleEvent name="onHitWall">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleEvent>
+                
+              <possibleInformation name="Energy">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleInformation>
+                              <possibleInformation name="Vitesse">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleInformation>
+                              <possibleInformation name="X">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleInformation>
+                              <possibleAction name="Ahead">
+                        <documentation>Evenement lors de la detection d'un robot par le radar </documentation>
+                </possibleAction>
+                
+        </restrictedState>
+</SCXMLConstraints>

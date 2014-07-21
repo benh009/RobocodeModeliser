@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.Hofbauer</groupId>
-    <artifactId>Robocode</artifactId>
+    <artifactId>scxmlEditeur</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -64,11 +64,7 @@
             <version>2.6.0</version>
         </dependency>
         
-        <dependency>
-            <groupId>com.commons.scxml</groupId>
-            <artifactId>commons-scxml</artifactId>
-            <version>0.9</version>
-        </dependency>
+
 
         <dependency>
             <groupId>xml-resolver</groupId>
@@ -79,12 +75,7 @@
 
 
         
-        <dependency>
-            <groupId>net.sf.robocode</groupId>  
-            <artifactId>robocode</artifactId>  
-            <version>1.6.2</version>
-            <type>jar</type>
-        </dependency>
+
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -92,4 +83,24 @@
             <type>jar</type>
         </dependency>
     </dependencies>
+    <name>ScxmlEditor</name>
+    <build>
+  <plugins>
+    <plugin>
+      <!-- Build an executable JAR -->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>2.4</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+            <mainClass>com.mxgraph.examples.swing.SCXMLGraphEditor</mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
 </project>

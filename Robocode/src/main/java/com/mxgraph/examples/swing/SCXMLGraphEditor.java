@@ -529,7 +529,8 @@ public class SCXMLGraphEditor extends JPanel
 		restrictedStatesConfig = null;
 		InputStream fileInputStream = null;
 		try {
-			File file = new File("restrictedStates.xml");
+                    //TODO mettre en relatif
+			File file = new File("/home/hofbauer/Projects/netbeans/Robocode/src/main/resources/restrictedStates.xml");
 			fileInputStream = new FileInputStream(file);
 		} catch (FileNotFoundException e1) {
 			System.out.println("Restriction configuration file not found. The application starts in normal mode without restriction handling.");

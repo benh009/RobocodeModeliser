@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xmx512M -Dsun.io.useCanonCaches=false -DNOSECURITY=true -DlogMessages=true -Ddebug=true -DPARALLEL=true -classpath %classpath com.hofbauer.robocode.simulateur.BattleRunner</exec.args>
+                <exec.args>-classpath %classpath com.mxgraph.examples.swing.SCXMLGraphEditor</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx512M -Dsun.io.useCanonCaches=false -DNOSECURITY=true -DlogMessages=true -Ddebug=true -DPARALLEL=true -classpath %classpath com.hofbauer.robocode.simulateur.BattleRunner</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath com.mxgraph.examples.swing.SCXMLGraphEditor</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,7 +39,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xmx512M -Dsun.io.useCanonCaches=false -DNOSECURITY=true -DlogMessages=true -Ddebug=true -DPARALLEL=true -classpath %classpath com.hofbauer.robocode.simulateur.BattleRunner</exec.args>
+                <exec.args>-classpath %classpath com.mxgraph.examples.swing.SCXMLGraphEditor</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>

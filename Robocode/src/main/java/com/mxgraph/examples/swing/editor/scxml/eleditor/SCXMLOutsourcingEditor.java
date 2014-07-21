@@ -4,7 +4,6 @@ package com.mxgraph.examples.swing.editor.scxml.eleditor;
  * TextComponentDemo.java requires one additional file:
  *   DocumentSizeFilter.java
  */
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -34,17 +33,18 @@ import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxResources;
 
 public class SCXMLOutsourcingEditor extends SCXMLElementEditor implements ActionListener {
-	private static final long serialVersionUID = 5819456701848767139L;
-	private UndoJTextField undoTextField;
-	private MyUndoManager undo;
-	private Document doc;
+
+    private static final long serialVersionUID = 5819456701848767139L;
+    private UndoJTextField undoTextField;
+    private MyUndoManager undo;
+    private Document doc;
     private SCXMLNode node;
-	private JRadioButton srcButton,xincludeButton;
-    
-    public SCXMLOutsourcingEditor(JFrame parent,SCXMLGraphEditor editor, mxCell nn, Point pos) throws Exception {
-    	super(parent,editor,nn);
-    	super.remove(idButton);
-    	setModal(true);
+    private JRadioButton srcButton, xincludeButton;
+
+    public SCXMLOutsourcingEditor(JFrame parent, SCXMLGraphEditor editor, mxCell nn, Point pos) throws Exception {
+        super(parent, editor, nn);
+        super.remove(idButton);
+        setModal(true);
         setTitle(mxResources.get("titleOutsourceEditor"));
         setLocation(pos);
 
@@ -52,25 +52,25 @@ public class SCXMLOutsourcingEditor extends SCXMLElementEditor implements Action
 
         tabbedPane = new JTabbedPane();
 
-        node=(SCXMLNode) nn.getValue();
-        undo=node.getSRCUndoManager();
-        doc=node.getSRCDoc();
+        node = (SCXMLNode) nn.getValue();
+        undo = node.getSRCUndoManager();
+        doc = node.getSRCDoc();
         // undo and doc must be both either null or not null.
-        assert(!((undo==null) ^ (doc==null)));
-        undoTextField=new UndoJTextField(node.getOutsourcedLocation(), doc, undo);
-        if (doc==null) {
-        	node.setSRCDoc(doc=undoTextField.getDocument());
-        	node.setSRCUndoManager(undo=undoTextField.getUndoManager());
+        assert (!((undo == null) ^ (doc == null)));
+        undoTextField = new UndoJTextField(node.getOutsourcedLocation(), doc, undo);
+        if (doc == null) {
+            node.setSRCDoc(doc = undoTextField.getDocument());
+            node.setSRCUndoManager(undo = undoTextField.getUndoManager());
         }
         doc.addDocumentListener(changeListener);
         // configure the undo text pane.
         undoTextField.setCaretPosition(0);
-        undoTextField.setMargin(new Insets(5,5,5,5));
+        undoTextField.setMargin(new Insets(5, 5, 5, 5));
 
         JScrollPane scrollPane = new JScrollPane(undoTextField);
         scrollPane.setPreferredSize(new Dimension(400, 200));
         undoTextField.setScrollPane(scrollPane);
-        
+
         srcButton = new JRadioButton(mxResources.get("SCXMLsrc"));
         srcButton.setActionCommand(mxResources.get("SCXMLsrc"));
         srcButton.setSelected(node.isOutsourcedNodeUsingSRC());
@@ -88,11 +88,11 @@ public class SCXMLOutsourcingEditor extends SCXMLElementEditor implements Action
 
         tabbedPane.addTab(mxResources.get("outsourceTAB"), scrollPane);
         tabbedPane.setSelectedIndex(0);
-        
-		JPanel contentPane=new JPanel();
-		contentPane.setLayout(new GridBagLayout());
 
-		//Add Components to this panel.
+        JPanel contentPane = new JPanel();
+        contentPane.setLayout(new GridBagLayout());
+
+        //Add Components to this panel.
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -100,46 +100,49 @@ public class SCXMLOutsourcingEditor extends SCXMLElementEditor implements Action
 
         contentPane.add(srcButton);
         contentPane.add(xincludeButton);
-        
-        updateActionTable(tabbedPane,actions);
-        
+
+        updateActionTable(tabbedPane, actions);
+
         //Add the components.
         getContentPane().add(contentPane, BorderLayout.CENTER);
 
         //Set up the menu bar.
         //actions=createActionTable(textPane);
-        JMenu editMenu=createEditMenu();
+        JMenu editMenu = createEditMenu();
         JMenuBar mb = new JMenuBar();
         mb.add(editMenu);
         setJMenuBar(mb);
-        
-		//Display the window.
-		pack();
-		setVisible(true);
-		
-		SCXMLElementEditor.focusOnTextPanel(tabbedPane.getSelectedComponent());
-    }
-	public class CloseAction extends AbstractAction {
-		public void actionPerformed(ActionEvent e) {
-			dispose();
-		}
-	}
-	public void selectRadioButtonForType() {
-		srcButton.setSelected(node.isOutsourcedNodeUsingSRC());
-		xincludeButton.setSelected(node.isOutsourcedNodeUsingXInclude());
-	}
-	@Override
-	public void actionPerformed(ActionEvent a) {
-		String cmd=a.getActionCommand();
-		if (cmd.equals(mxResources.get("SCXMLsrc"))) {
-			node.getSRC().setType(OUTSOURCETYPE.SRC);
-			selectRadioButtonForType();
-			node.setFake(false);
-		} else if (cmd.equals(mxResources.get("SCXMLxinclude"))) {
-			node.getSRC().setType(OUTSOURCETYPE.XINC);
-			selectRadioButtonForType();
-			node.setFake(true);
-		}
-	}
-}
 
+        //Display the window.
+        pack();
+        setVisible(true);
+
+        SCXMLElementEditor.focusOnTextPanel(tabbedPane.getSelectedComponent());
+    }
+
+    public class CloseAction extends AbstractAction {
+
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+        }
+    }
+
+    public void selectRadioButtonForType() {
+        srcButton.setSelected(node.isOutsourcedNodeUsingSRC());
+        xincludeButton.setSelected(node.isOutsourcedNodeUsingXInclude());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent a) {
+        String cmd = a.getActionCommand();
+        if (cmd.equals(mxResources.get("SCXMLsrc"))) {
+            node.getSRC().setType(OUTSOURCETYPE.SRC);
+            selectRadioButtonForType();
+            node.setFake(false);
+        } else if (cmd.equals(mxResources.get("SCXMLxinclude"))) {
+            node.getSRC().setType(OUTSOURCETYPE.XINC);
+            selectRadioButtonForType();
+            node.setFake(true);
+        }
+    }
+}
