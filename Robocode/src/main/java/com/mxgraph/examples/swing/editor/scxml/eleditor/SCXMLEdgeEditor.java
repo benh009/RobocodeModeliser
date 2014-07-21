@@ -50,9 +50,13 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
     private static final long serialVersionUID = 3563719047023065063L;
 
     private UndoJTextField eventTextPane;
-    private JLabel eventDocumentationLabel;
+    private JLabel eventDocumentationLabel = new JLabel();
     private UndoJTextField conditionTextPane;
+    private JLabel informationDocumentationLabel = new JLabel();
+    ;
     private UndoJTextPane exeTextPane;
+    private JLabel actionDocumentationLabel = new JLabel();
+    ;
     private UndoJTextPane commentsPane;
     private MyUndoManager undo;
     private Document doc;
@@ -61,7 +65,7 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
     private JScrollPane scrollPane;
 
     private JScrollPane buttonGroupScrollPane;
-    private JPanel restrictedEdgeEditorPanel;
+
     private JPanel possibleEventDetailsPanel;
     private SCXMLNode sourceNode;
 
@@ -88,7 +92,6 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
             edge.setEventUndoManager(undo = eventTextPane.getUndoManager());
         }
         doc.addDocumentListener(changeListener);
-        eventDocumentationLabel = new JLabel();
 
         undo = edge.getConditionUndoManager();
         doc = edge.getConditionDoc();
@@ -131,7 +134,7 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
 
         sourceNode = (SCXMLNode) editor.getGraphComponent().getSCXMLNodeForID(edge.getSCXMLSource()).getValue();
         if (sourceNode.isRestricted()) {
-            RestrictedInitEventTab("eventTAB");
+            RestrictedInitEventTab("eventTAB", eventTextPane);
         } else {
             tabbedPane.addTab(mxResources.get("eventTAB"), eventTab());
         }
@@ -140,7 +143,7 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
         scrollPane = new JScrollPane(conditionTextPane);
         conditionTextPane.setScrollPane(scrollPane);
         if (sourceNode.isRestricted()) {
-            RestrictedInitEventTab("conditionTAB");
+            RestrictedInitEventTab("conditionTAB", conditionTextPane);
         } else {
 
             scrollPane.setPreferredSize(new Dimension(400, 200));
@@ -182,10 +185,11 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
         SCXMLElementEditor.focusOnTextPanel(tabbedPane.getSelectedComponent());
     }
 
-    private void RestrictedInitEventTab(String nameTab) {
+    private void RestrictedInitEventTab(String nameTab, UndoJTextField textPane) {
         System.out.println("resticted");
         GridBagLayout gbl = new GridBagLayout();
-        restrictedEdgeEditorPanel = new JPanel(gbl);
+
+        JPanel restrictedEdgeEditorPanel = new JPanel(gbl);
 
         JPanel possibleEventsButtonGroupPanel = new JPanel(new GridBagLayout());
         loadPossibleEventsButtonGroup(editor, nameTab, possibleEventsButtonGroupPanel);
@@ -199,7 +203,7 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
         c.gridy = 0;
         restrictedEdgeEditorPanel.add(buttonGroupScrollPane, c);
         possibleEventDetailsPanel = new JPanel(new GridBagLayout());
-        eventTextPane.setEditable(false);
+        textPane.setEditable(false);
         JLabel eventNameTitleLabel = new JLabel(mxResources.get("eventNameTitle"));
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -229,7 +233,13 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
         c.weighty = 1;
         c.gridx = 0;
         c.gridy = 3;
-        JScrollPane documentationScrollPane = new JScrollPane(eventDocumentationLabel);
+        JScrollPane documentationScrollPane;
+        if (nameTab.equals("eventTAB")) {
+            documentationScrollPane = new JScrollPane(eventDocumentationLabel);
+        } else {
+            documentationScrollPane = new JScrollPane(informationDocumentationLabel);
+        }
+
         //documentationScrollPane.setPreferredSize(new Dimension(400, 200));
         possibleEventDetailsPanel.add(documentationScrollPane, c);
         c = new GridBagConstraints();
@@ -274,12 +284,21 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
             String eventName = possibleObject.getName();
             String Documentation = possibleObject.getDocumentation();
             JRadioButton possibleEventRadioButton = new JRadioButton(eventName);
-            possibleEventRadioButton.setActionCommand(mxResources.get("changeEvent") + eventName + "#&@" + Documentation);
+
+            if (possibleObject instanceof PossibleEvent) {
+                possibleEventRadioButton.setActionCommand(mxResources.get("changeEvent") + eventName + "#&@" + Documentation);
+            } else {
+                possibleEventRadioButton.setActionCommand("changeInformation#&@" + eventName + "#&@" + Documentation);
+            }
+
             possibleEventRadioButton.addActionListener(this);
             //If the file is imported
             if (eventName.equals(edge.getEvent())) {
-                setEventDocumentationLabel(Documentation);
-                possibleEventRadioButton.setSelected(true);
+                if (possibleObject instanceof PossibleEvent) {
+                    setEventDocumentationLabel(Documentation);
+                    possibleEventRadioButton.setSelected(true);
+                }
+
             } else {
                 possibleEventRadioButton.setEnabled(!existingEventsOnSourceNode.contains(eventName));
             }
@@ -295,36 +314,36 @@ public class SCXMLEdgeEditor extends SCXMLElementEditor {
         }
     }
 
-    public class ListenerRadioButton implements ActionListener {
-
-        public ListenerRadioButton() {
-
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String cmd = e.getActionCommand();
-            if (cmd.startsWith(mxResources.get("changeEvent"))) {
-                String[] eventProperties = cmd.split("#&@");
-                String eventName = eventProperties[1];
-                String eventDocumentation = eventProperties[2];
-                setEventDocumentationLabel(eventDocumentation);
-                eventTextPane.setText(eventName);
-                pack();
-            } else {
-                //super.actionPerformed(e);
-            }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String cmd = e.getActionCommand();
+        if (cmd.startsWith(mxResources.get("changeEvent"))) {
+            String[] eventProperties = cmd.split("#&@");
+            String eventName = eventProperties[1];
+            String eventDocumentation = eventProperties[2];
+            setEventDocumentationLabel(eventDocumentation);
+            eventTextPane.setText(eventName);
+            this.pack();
+        } else if (cmd.startsWith("changeInformation")) {
+            String[] eventProperties = cmd.split("#&@");
+            String InformationName = eventProperties[1];
+            String InformationDocumentation = eventProperties[2];
+            informationDocumentationLabel.setText(InformationDocumentation);
+            conditionTextPane.setText(InformationName);
+            this.pack();
+        } else {
+            super.actionPerformed(e);
         }
     }
 
-
-
     private void setEventDocumentationLabel(String eventDocumentation) {
         eventDocumentationLabel.setText(eventDocumentation.trim());
+
     }
 
     private JPanel eventJPanel;
 
+    // fait par benoit sans les propositions 
     private JPanel eventTab() {
 
         eventJPanel = new JPanel(new BorderLayout());
